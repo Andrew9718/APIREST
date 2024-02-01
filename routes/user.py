@@ -6,6 +6,7 @@ from schemas.user import User
 from cryptography.fernet import Fernet
 from starlette.status import HTTP_204_NO_CONTENT
 from typing import List
+Access-Control-Allow-Origin: <origin> | *
 
 user = APIRouter()
 key = Fernet.generate_key()
