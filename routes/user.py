@@ -92,3 +92,16 @@ def update_user(id: int, user: User):
         .where(users.c.id == id))
     con.commit()
     return "updated"
+
+#----------------------------------------------------------------CONSULTA POR CORREO Y CONTRASEÑA----------------------------------------------------------------------------
+
+@user.get("/user")
+def mostrar(email: str, password: str):
+    encrypted_password = f.encrypt(password.encode("utf-8"))
+    consulta = con.execute(users.select().where(users.c.email == email, users.c.password == encrypted_password)).first()
+    if consulta:
+        user_dict = {"id": consulta.id,
+                     "name": consulta.name, "email": consulta.email}
+        return user_dict
+    else:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
